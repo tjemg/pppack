@@ -1,0 +1,51 @@
+#!/bin/sh
+##############################################
+# (C) 2015, Tiago Gasiba                     #
+#           tiago.gasiba@gmail.com           #
+##############################################
+# Note:                                      #
+#  "thisfilesize" variable must be set to    #
+#  match this file size until the binary     #
+#  data starts, i.e. only the shell script   #
+#                                            #
+#  In order to speed-up the dd command, we   #
+#  insert some filler bytes, so that the     #
+#  dd block size is larger and less          #
+#  buffering occours                         #
+#                                            #
+##############################################
+
+TMPROOT=${TMPDIR:=/tmp}
+VERBOSE=${VERBOSE:=0}
+currtime=`date +"%y%m%d%H%M%S"`
+tmpdir=$TMPROOT/unpack.$RANDOM.$currtime.$$
+currentdir=`pwd`
+thisfilesize=1725
+mkdir "$tmpdir" || {
+    echo "ERROR: could not create directory $tmpdir"
+    exit 1
+}
+if [ "$VERBOSE" = "1" ]; then
+    echo "(C) 2015, Tiago Gasiba"
+    echo "          tiago.gasiba@gmail.com"
+    echo ""
+    echo "DIR : $tmpdir"
+    echo "EXEC: $0.exe"
+    echo ""
+fi
+dd if="$0" skip=1 ibs=$thisfilesize 2>/dev/null | bunzip2 - > "$tmpdir/$0.exe"
+cd "$tmpdir"
+chmod +x  "$tmpdir/$0.exe"
+"$0.exe"
+cd "$currentdir"
+rm -rf "$tmpdir"
+exit
+#############################################
+#############################################
+#############################################
+#############################################
+#  FILLER BYTES FILLER BYTES FILLER BYTES   #
+#############################################
+#############################################
+#############################################
+#############################################
