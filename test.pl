@@ -1,5 +1,6 @@
 # A cheap and sleazy version of ps
 use Proc::ProcessTable;
+#use DBD::SQLcipher;
 
 $FORMAT = "%-6s %-10s %-8s %-24s %s\n";
 $t = new Proc::ProcessTable;

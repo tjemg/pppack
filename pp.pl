@@ -1,0 +1,6 @@
+use strict;
+use warnings;
+use pp;
+
+pp->go();
+
